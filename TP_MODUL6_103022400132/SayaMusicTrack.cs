@@ -1,32 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 
-namespace TP_MODUL6_103022400132
+namespace TugasMusicApp
 {
     public class SayaMusicTrack
     {
         private int id;
         private int playCount;
         private string title;
+
         public SayaMusicTrack(string title)
         {
+            Debug.Assert(title != null, "Judul tidak boleh null!");
             this.title = title;
             this.playCount = 0;
-            Random rand = new Random();
-            this.id = rand.Next(10000, 100000);
+            this.id = new Random().Next(10000, 100000);
         }
         public void IncreasePlayCount(int count)
         {
-            this.playCount += count;
+            if (count > 10000000)
+            {
+                throw new ArgumentOutOfRangeException("count", "Input maksimal adalah 10.000.000!");
+            }
+
+            checked
+            {
+                this.playCount += count;
+            }
         }
         public void PrintTrackDetails()
         {
-            Console.WriteLine("=== Detail Music Track ===");
-            Console.WriteLine($"ID          : {this.id}");
-            Console.WriteLine($"Judul Lagu  : {this.title}");
-            Console.WriteLine($"Play Count  : {this.playCount}");
-            Console.WriteLine("--------------------------\n");
+            Console.WriteLine($"\n[Song] ID: {id} | Judul: {title} | Play Count: {playCount}");
         }
     }
 }
